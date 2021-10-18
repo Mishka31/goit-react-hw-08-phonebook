@@ -1,5 +1,6 @@
-import React, {useCallback} from "react";
-import { Formik } from "formik";
+import React, { useCallback } from "react";
+import { Link } from "react-router-dom";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 // values = {
 //   name: "",
@@ -15,71 +16,54 @@ const INITIAL_VALUES = {
   password: "",
 };
 
-const Registration = () => (
-    const validate = useCallback((values) => {
-        const errors = {};
-        if (!values.email) {
-          errors.email = "Required";
-        } else if (
-          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
-            values.email
-          )
-        ) {
-          errors.email = "Invalid email address";
-        }
-        return errors;
-      }, []);
+const Registration = () => {
+  const validate = useCallback((values) => {
+    const errors = {};
+    if (!values.email) {
+      errors.email = "Required";
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+      errors.email = "Invalid email address";
+    }
+    return errors;
+  }, []);
 
-      return ()
+  const onSubmit = useCallback((values, { setSubmitting }) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+    }, 400);
+  }, []);
 
-  <div>
-    <h1>Registration form!</h1>
-    <Formik
-      initialValues={INITIAL_VALUES}
-      validate={}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
-      }}
-    >
-      {({
-        values,
-        errors,
-        touched,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        isSubmitting,
-        /* and other goodies */
-      }) => (
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            name="email"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.email}
-          />
-          {errors.email && touched.email && errors.email}
-          <input
-            type="password"
-            name="password"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.password}
-          />
-          {errors.password &&
-            touched.password &&
-            errors.password}
-          <button type="submit" disabled={isSubmitting}>
-            Submit
-          </button>
-        </form>
-      )}
-    </Formik>
-  </div>
-);
+  return (
+    <div>
+      <div>
+        <Link to="/">Start Page</Link>
+      </div>
+      <h1>Registration form!</h1>
+      <Formik
+        initialValues={INITIAL_VALUES}
+        validate={validate}
+        onSubmit={onSubmit}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            <Field type="text" name="name" />
+            <ErrorMessage name="name" component="div" />
+            <Field type="email" name="email" />
+            <ErrorMessage name="email" component="div" />
+            <Field type="password" name="password" />
+            <ErrorMessage name="password" component="div" />
+            <Field type="password" name="passwordRepead" />
+            <ErrorMessage name="passwordRepead" component="div" />
+            <button type="submit" disabled={isSubmitting}>
+              Submit
+            </button>
+          </Form>
+        )}
+      </Formik>
+      <Link to="/login">Do you already have an account? Login</Link>{" "}
+    </div>
+  );
+};
 
 export { Registration };

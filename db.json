@@ -1,0 +1,19 @@
+{
+  "contacts": [
+    {
+      "name": "Misha Krasnonos",
+      "number": "050-762-05-64",
+      "id": 1
+    },
+    {
+      "name": "Misha",
+      "number": "097-92-50-153",
+      "id": 2
+    },
+    {
+      "name": "Lena Krasnonos",
+      "number": "123123123123",
+      "id": 3
+    }
+  ]
+}
