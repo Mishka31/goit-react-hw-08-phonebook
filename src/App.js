@@ -16,11 +16,15 @@ class App extends Component {
   componentDidMount() {
     this.props.fetchContacts();
   }
+  logout = () => {
+    console.log("logout");
+  };
 
   render() {
     const { contacts } = this.state;
     return (
       <div>
+        <button onClick={this.logout}>Logout</button>
         <h1 className={s.titleH1}>Phonebook</h1>
         <ContactForm listArrey={contacts} />
         <h2 className={s.titleH2}>Contacts</h2>

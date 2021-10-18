@@ -1,11 +1,8 @@
 import React, { useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
-
-// values = {
-//   email: "",
-//   password: "",
-// };
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 
 const INITIAL_VALUES = {
   email: "",
@@ -36,20 +33,8 @@ const Login = () => {
         <Link to="/">Start Page</Link>
       </div>
       <h1>Login form!</h1>
-      <Formik
-        initialValues={INITIAL_VALUES}
-        validate={validate}
-        onSubmit={onSubmit}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-        }) => (
+      <Formik initialValues={INITIAL_VALUES} validate={validate} onSubmit={onSubmit}>
+        {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
           <form onSubmit={handleSubmit}>
             <input
               type="email"
@@ -57,22 +42,34 @@ const Login = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.email}
+              placeholder="Enter email..."
             />
+            <br />
             {errors.email && touched.email && errors.email}
+            <br />
+            <br />
             <input
               type="password"
               name="password"
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.password}
+              placeholder="Enter password..."
             />
+            <br />
             {errors.password && touched.password && errors.password}
-            <button type="submit" disabled={isSubmitting}>
+            <br />
+            <br />
+            <button
+              type="submit"
+              disabled={isSubmitting || errors.email || !values.email || !values.password}
+            >
               Submit
             </button>
           </form>
         )}
       </Formik>
+      <br />
       <div>
         <Link to="/registration">Does not have an account? Register </Link>
       </div>
