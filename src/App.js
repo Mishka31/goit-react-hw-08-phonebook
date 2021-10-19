@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import ContactForm from "./Components/ContactForm/ContactForm.jsx";
 import ContactList from "./Components/ContactList/ContactList.jsx";
 import Filter from "./Components/Filter/Filter.jsx";
@@ -16,15 +17,16 @@ class App extends Component {
   componentDidMount() {
     this.props.fetchContacts();
   }
-  logout = () => {
-    console.log("logout");
-  };
+  // logout = () => {
+  //   console.log("logout");
+  // };
 
   render() {
     const { contacts } = this.state;
     return (
       <div>
-        <button onClick={this.logout}>Logout</button>
+        <Link to="/">Logout</Link>
+        {/* <button onClick={this.logout}>Logout</button> */}
         <h1 className={s.titleH1}>Phonebook</h1>
         <ContactForm listArrey={contacts} />
         <h2 className={s.titleH2}>Contacts</h2>

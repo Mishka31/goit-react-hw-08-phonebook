@@ -41,10 +41,11 @@ const Registration = () => {
   }, []);
 
   const onSubmit = useCallback((values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 400);
+    console.log("asd");
+    // setTimeout(() => {
+    //   alert(JSON.stringify(values, null, 2));
+    //   setSubmitting(false);
+    // }, 400);
   }, []);
 
   return (

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import Button from "@material-ui/core/Button";
@@ -10,6 +10,11 @@ const INITIAL_VALUES = {
 };
 
 const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePassword = useCallback(() => {
+    setShowPassword((prev) => !prev);
+  }, []);
+
   const validate = useCallback((values) => {
     const errors = {};
     if (!values.email) {
@@ -36,36 +41,44 @@ const Login = () => {
       <Formik initialValues={INITIAL_VALUES} validate={validate} onSubmit={onSubmit}>
         {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
           <form onSubmit={handleSubmit}>
-            <input
-              type="email"
+            <TextField
+              fullWidth
+              id="email"
               name="email"
-              onChange={handleChange}
-              onBlur={handleBlur}
+              label="Email"
+              type="email"
               value={values.email}
-              placeholder="Enter email..."
-            />
-            <br />
-            {errors.email && touched.email && errors.email}
-            <br />
-            <br />
-            <input
-              type="password"
-              name="password"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.password}
-              placeholder="Enter password..."
+              error={touched.email && Boolean(errors.email)}
+              helperText={touched.email && errors.email}
             />
+            <TextField
+              fullWidth
+              id="password"
+              name="password"
+              label="Password"
+              type={showPassword ? "text" : "password"}
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.password && Boolean(errors.password)}
+              helperText={touched.password && errors.password}
+            />
+            <button onClick={togglePassword}>
+              {showPassword ? "Hide pasword" : "Show password"}
+            </button>
             <br />
-            {errors.password && touched.password && errors.password}
             <br />
-            <br />
-            <button
-              type="submit"
+            <Button
               disabled={isSubmitting || errors.email || !values.email || !values.password}
+              color="primary"
+              variant="contained"
+              fullWidth
+              type="submit"
             >
               Submit
-            </button>
+            </Button>
           </form>
         )}
       </Formik>

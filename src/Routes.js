@@ -4,6 +4,8 @@ import App from "./App.js";
 import { Registration } from "./login/components/registration.jsx";
 import { Login } from "./login/components/login.jsx";
 import home from "./Components/startPage/startPage.js";
+import PrivateRoute from "./Components/PrivatRoute/privatRoute";
+import PublicRoute from "./Components/PublicRoute/publicRoute";
 
 export default function Routes() {
   return (
@@ -15,9 +17,10 @@ export default function Routes() {
       <Switch>
         <Suspense fallback={<p>Loading...</p>}>
           <Route exact path="/" component={home} />
-          <Route path="/login" component={Login} />
-          <Route path="/registration" component={Registration} />
-          <Route path="/app" component={App} />
+          <PublicRoute path="/login" component={Login} />
+          <PublicRoute path="/registration" component={Registration} />
+          <PrivateRoute exatc path="/app" component={App} />
+          {/* <Route path="/app" component={App} /> */}
         </Suspense>
       </Switch>
     </div>
