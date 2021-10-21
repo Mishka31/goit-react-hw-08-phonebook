@@ -12,7 +12,6 @@ export const loginSlice = createSlice({
   initialState: INITIAL_SATE,
   reducers: {
     registerSuccess: (state, action) => {
-      console.log("Register Succes");
       state.name = action.payload.name;
       state.email = action.payload.email;
       state.token = action.payload.token;
@@ -33,10 +32,7 @@ export const loginSlice = createSlice({
   },
 });
 
-export const {
-  registerSuccess,
-  registerError,
-  loginSuccess,
-  loginError,
-  logoutSuccess,
-} = loginSlice.actions;
+export const { registerSuccess, registerError, loginSuccess, loginError, logoutSuccess } =
+  loginSlice.actions;
+
+export default loginSlice.reducer;
