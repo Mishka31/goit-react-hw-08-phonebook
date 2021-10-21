@@ -19,7 +19,7 @@ export default function Routes() {
           <Route exact path="/" component={home} />
           <PublicRoute path="/login" component={Login} />
           <PublicRoute path="/registration" component={Registration} />
-          <PrivateRoute exatc path="/app" component={App} />
+          <PrivateRoute exatc path="/contacts" component={App} />
           {/* <Route path="/app" component={App} /> */}
         </Suspense>
       </Switch>

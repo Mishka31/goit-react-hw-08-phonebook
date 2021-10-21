@@ -1,6 +1,8 @@
 import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { register } from "../thunk.js";
 
 const INITIAL_VALUES = {
   name: "",
@@ -10,6 +12,8 @@ const INITIAL_VALUES = {
 };
 
 const Registration = () => {
+  const dispatch = useDispatch();
+
   const validate = useCallback((values) => {
     const errors = {};
     if (!values.name) {
@@ -27,26 +31,29 @@ const Registration = () => {
     if (!values.password) {
       errors.password = "Required";
     } else if (values.password.length < 7 || values.password.length > 15) {
-      errors.password = "Invalid password. Password should be more then 8 and less then 15 symbols";
+      errors.password =
+        "Invalid password. Password should be more then 8 and less then 15 symbols";
     }
 
     if (!values.repeatPassword) {
       errors.repeatPassword = "Required!";
     } else if (values.repeatPassword.length < 8 || values.password.length > 15) {
-      errors.repeatPassword = "Invalid password. Password should be more then 8 symbols!";
+      errors.repeatPassword =
+        "Invalid password. Password should be more then 8 symbols!";
     } else if (values.repeatPassword !== values.password) {
       errors.repeatPassword = "Confirm password should be equal password!";
     }
     return errors;
   }, []);
 
-  const onSubmit = useCallback((values, { setSubmitting }) => {
-    console.log("asd");
-    // setTimeout(() => {
-    //   alert(JSON.stringify(values, null, 2));
-    //   setSubmitting(false);
-    // }, 400);
-  }, []);
+  const onSubmit = useCallback(
+    (values, { setSubmitting }) => {
+      const { name, email, password } = values;
+      dispatch(register({ name, email, password }));
+      setSubmitting(false);
+    },
+    [dispatch]
+  );
 
   return (
     <div>
@@ -69,7 +76,11 @@ const Registration = () => {
             <br />
             <ErrorMessage name="password" component="div" />
             <br />
-            <Field type="password" name="repeatPassword" placeholder="Confirm password" />
+            <Field
+              type="password"
+              name="repeatPassword"
+              placeholder="Confirm password"
+            />
             <br />
             <ErrorMessage name="repeatPassword" component="div" />
             <br />

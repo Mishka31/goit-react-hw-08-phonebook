@@ -1,66 +1,51 @@
 import axios from "axios";
-import actions from "./contacts-actions.js";
-import { SERVER_URL } from "./thunk.js";
+// import actions from "./contacts-actions.js";
+import { SERVER_URL } from "../service/api.js";
+import {
+  registerSuccess,
+  registerError,
+  loginSuccess,
+  loginError,
+  logoutSuccess,
+} from "./slice.js";
 
 axios.defaults.baseURL = SERVER_URL;
 
-const {
-  fetchRequest,
-  fetchSuccess,
-  fetchError,
-  addRequest,
-  addSuccess,
-  addError,
-  deleteSuccess,
-  deleteError,
-  deleteRequest,
-} = actions; //destructuring
+export function register(user) {
+  return function (dispatch) {
+    dispatch({ type: "REGISTER_REQUEST" });
 
-const addContact =
-  ({ name, number }) =>
-  (dispatch) => {
-    const contacts = {
-      name,
-      number,
-    };
-
-    dispatch(addRequest());
-    axios
-      .post("/contacts", {
-        name: contacts.name,
-        number: contacts.number,
+    return axios
+      .post("/users/signup", { ...user })
+      .then(function (res) {
+        const {
+          user: { name, email },
+          token,
+        } = res.data;
+        dispatch(registerSuccess({ name, email, token }));
       })
-      .then(({ data }) => dispatch(addSuccess(data)))
-      .catch((error) => dispatch(addError(error)));
+      .catch((error) => dispatch(registerError(error)));
   };
+}
 
-const deleteContact = (id) => (dispatch) => {
-  dispatch(deleteRequest());
+export function login(iiiiiiiiii) {
+  return function (dispatch) {
+    dispatch({ type: "LOGIN_REQUEST" });
 
-  axios
-    .delete(`/contacts/${id}`)
-    .then(() => dispatch(deleteSuccess(id)))
-    .catch((error) => dispatch(deleteError(error)));
-};
+    return axios
+      .post("/users/login", iiiiiiiiii)
+      .then(({ data }) => dispatch(loginSuccess(data)))
+      .catch((error) => dispatch(loginError(error)));
+  };
+}
 
-const fetchContacts = () => async (dispatch) => {
-  dispatch(fetchRequest());
+export function logout() {
+  return function (dispatch) {
+    dispatch({ type: "LOGOUT_REQUEST" });
 
-  try {
-    const { data } = await axios.get("/contacts");
-    dispatch(fetchSuccess(data));
-  } catch (error) {
-    dispatch(fetchError(error));
-  }
-  //   axios
-  //     .get("/contacts")
-  //     .then((res) => dispatch(fetchSuccess(res.data)))
-  //     .catch((error) => dispatch(fetchError(error)));
-};
-
-// eslint-disable-next-line
-export default {
-  addContact,
-  deleteContact,
-  fetchContacts,
-};
+    return axios
+      .delete("/users/logout")
+      .then(() => dispatch(logoutSuccess()))
+      .catch((error) => dispatch({ type: "LOGOUT_REQUEST", payload: error }));
+  };
+}
