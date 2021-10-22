@@ -1,8 +1,10 @@
 import React, { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { Formik } from "formik";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import authOperations from "../../redux/auth/auth-operations.js";
+import AppBar from "../../Components/AppBar/AppBar.js";
 
 const INITIAL_VALUES = {
   email: "",
@@ -10,6 +12,8 @@ const INITIAL_VALUES = {
 };
 
 const Login = () => {
+  const dispatch = useDispatch();
+
   const [showPassword, setShowPassword] = useState(false);
   const togglePassword = useCallback(() => {
     setShowPassword((prev) => !prev);
@@ -25,18 +29,18 @@ const Login = () => {
     return errors;
   }, []);
 
-  const onSubmit = useCallback((values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 400);
-  }, []);
+  const onSubmit = useCallback(
+    (values, { setSubmiting }) => {
+      console.log(values);
+      dispatch(authOperations.logIn(values));
+      setSubmiting(false);
+    },
+    [dispatch]
+  );
 
   return (
     <div>
-      <div>
-        <Link to="/">Start Page</Link>
-      </div>
+      <AppBar />
       <h1>Login form!</h1>
       <Formik initialValues={INITIAL_VALUES} validate={validate} onSubmit={onSubmit}>
         {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
@@ -82,10 +86,6 @@ const Login = () => {
           </form>
         )}
       </Formik>
-      <br />
-      <div>
-        <Link to="/registration">Does not have an account? Register </Link>
-      </div>
     </div>
   );
 };

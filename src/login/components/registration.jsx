@@ -1,8 +1,9 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { register } from "../thunk.js";
+import authOperations from "../../redux/auth/auth-operations.js";
+import AppBar from "../../Components/AppBar/AppBar.js";
+// import { register } from "../thunk.js";
 
 const INITIAL_VALUES = {
   name: "",
@@ -31,15 +32,13 @@ const Registration = () => {
     if (!values.password) {
       errors.password = "Required";
     } else if (values.password.length < 7 || values.password.length > 15) {
-      errors.password =
-        "Invalid password. Password should be more then 8 and less then 15 symbols";
+      errors.password = "Invalid password. Password should be more then 8 and less then 15 symbols";
     }
 
     if (!values.repeatPassword) {
       errors.repeatPassword = "Required!";
     } else if (values.repeatPassword.length < 8 || values.password.length > 15) {
-      errors.repeatPassword =
-        "Invalid password. Password should be more then 8 symbols!";
+      errors.repeatPassword = "Invalid password. Password should be more then 8 symbols!";
     } else if (values.repeatPassword !== values.password) {
       errors.repeatPassword = "Confirm password should be equal password!";
     }
@@ -48,8 +47,8 @@ const Registration = () => {
 
   const onSubmit = useCallback(
     (values, { setSubmitting }) => {
-      const { name, email, password } = values;
-      dispatch(register({ name, email, password }));
+      dispatch(authOperations.register(values));
+      console.log(values);
       setSubmitting(false);
     },
     [dispatch]
@@ -57,9 +56,7 @@ const Registration = () => {
 
   return (
     <div>
-      <div>
-        <Link to="/">Start Page</Link>
-      </div>
+      <AppBar />
       <h1>Registration form!</h1>
       <Formik initialValues={INITIAL_VALUES} validate={validate} onSubmit={onSubmit}>
         {({ isSubmitting, errors, values }) => (
@@ -76,11 +73,7 @@ const Registration = () => {
             <br />
             <ErrorMessage name="password" component="div" />
             <br />
-            <Field
-              type="password"
-              name="repeatPassword"
-              placeholder="Confirm password"
-            />
+            <Field type="password" name="repeatPassword" placeholder="Confirm password" />
             <br />
             <ErrorMessage name="repeatPassword" component="div" />
             <br />
@@ -101,7 +94,6 @@ const Registration = () => {
           </Form>
         )}
       </Formik>
-      <Link to="/login">Do you already have an account? Login</Link>{" "}
     </div>
   );
 };

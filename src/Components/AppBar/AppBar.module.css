@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid;
+}
+.link {
+  margin-right: 4%;
+  display: flex;
+  align-items: center;
+}

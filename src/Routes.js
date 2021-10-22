@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import App from "./App.js";
 import { Registration } from "./login/components/registration.jsx";
 import { Login } from "./login/components/login.jsx";
-import home from "./Components/startPage/startPage.js";
+import home from "./Components/startPage.js";
 import PrivateRoute from "./Components/PrivatRoute/privatRoute";
 import PublicRoute from "./Components/PublicRoute/publicRoute";
 
