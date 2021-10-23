@@ -31,6 +31,11 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       //   state.errorMessage = null;
     },
+    [authOperations.fetchCurrentUser.fulfilled](state, { payload }) {
+      state.user = payload;
+      state.isLoggedIn = true;
+      //   state.isFetchingCurrentUser = false;
+    },
     // [authOperations.register.pending](state, _) {
     //   state.error = null;
     // },
@@ -45,11 +50,6 @@ const authSlice = createSlice({
     // },
     // [authOperations.fetchCurrentUser.pending](state, _) {
     //   state.isFetchingCurrentUser = true;
-    // },
-    // [authOperations.fetchCurrentUser.fulfilled](state, { payload }) {
-    //   state.user = payload;
-    //   state.isLoggedIn = true;
-    //   state.isFetchingCurrentUser = false;
     // },
     // [authOperations.fetchCurrentUser.rejected](state, _) {
     //   state.isFetchingCurrentUser = false;

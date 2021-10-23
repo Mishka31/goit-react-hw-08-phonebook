@@ -7,6 +7,7 @@ import Filter from "./Components/Filter/Filter.jsx";
 import s from "./App.module.css";
 import operations from "./redux/contacts/contacts-operations.js";
 import contactsSelectors from "./redux/contacts/contacts-selector.js";
+import AppBar from "./Components/AppBar/AppBar.js";
 
 class App extends Component {
   state = {
@@ -25,6 +26,7 @@ class App extends Component {
     const { contacts } = this.state;
     return (
       <div>
+        <AppBar />
         <Link to="/">Logout</Link>
         {/* <button onClick={this.logout}>Logout</button> */}
         <h1 className={s.titleH1}>Phonebook</h1>

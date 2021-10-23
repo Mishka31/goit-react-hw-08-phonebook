@@ -6,7 +6,6 @@ import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store.js";
 import "./index.css";
 import Routes from "./Routes.js";
-// import App from "./App";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,7 +14,6 @@ ReactDOM.render(
         <BrowserRouter>
           <Routes />
         </BrowserRouter>
-        {/* <App /> */}
       </PersistGate>
     </Provider>
   </React.StrictMode>,

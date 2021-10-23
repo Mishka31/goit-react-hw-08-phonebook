@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import authOperations from "../../redux/auth/auth-operations.js";
 import AppBar from "../../Components/AppBar/AppBar.js";
+import s from "./login.module.css";
 
 const INITIAL_VALUES = {
   email: "",
@@ -41,10 +42,10 @@ const Login = () => {
   return (
     <div>
       <AppBar />
-      <h1>Login form!</h1>
+      <h1 className={s.title}>Login form!</h1>
       <Formik initialValues={INITIAL_VALUES} validate={validate} onSubmit={onSubmit}>
         {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
-          <form onSubmit={handleSubmit}>
+          <form className={s.container} onSubmit={handleSubmit}>
             <TextField
               fullWidth
               id="email"

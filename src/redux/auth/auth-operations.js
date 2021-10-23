@@ -16,7 +16,6 @@ const token = {
 const register = createAsyncThunk("auth/register", async (credentials) => {
   try {
     const { data } = await axios.post("/users/signup", credentials);
-    console.log("asdasd");
     token.set(data.token);
     // <Redirect to="/" />;
     return data;
@@ -44,28 +43,27 @@ const logOut = createAsyncThunk("auth/logout", async () => {
   }
 });
 
-// const fetchCurrentUser = createAsyncThunk("auth/refresh", async (_, thunkAPI) => {
-//   const state = thunkAPI.getState();
-//   const persistedToken = state.auth.token;
-
-//   if (persistedToken === null) {
-//     return thunkAPI.RejectWithValue();
-//   }
-
-//   token.set(persistedToken);
-//   try {
-//     const { data } = await axios.get("/users/current");
-//     return data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+const fetchCurrentUser = createAsyncThunk("auth/refresh", async (_, thunkAPI) => {
+  console.log(thunkAPI.getState());
+  const state = thunkAPI.getState();
+  const tokenLocal = state.auth.token;
+  if (tokenLocal === null) {
+    return thunkAPI.RejectWithValue();
+  }
+  token.set(tokenLocal);
+  try {
+    const { data } = await axios.get("/users/current");
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 const authOperations = {
   register,
   logIn,
   logOut,
-  //   fetchCurrentUser,
+  fetchCurrentUser,
 };
 
 export default authOperations;

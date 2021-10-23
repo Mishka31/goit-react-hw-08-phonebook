@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import authOperations from "../../redux/auth/auth-operations.js";
 import AppBar from "../../Components/AppBar/AppBar.js";
+import s from "./login.module.css";
 // import { register } from "../thunk.js";
 
 const INITIAL_VALUES = {
@@ -57,10 +58,10 @@ const Registration = () => {
   return (
     <div>
       <AppBar />
-      <h1>Registration form!</h1>
+      <h1 className={s.title}>Registration form!</h1>
       <Formik initialValues={INITIAL_VALUES} validate={validate} onSubmit={onSubmit}>
         {({ isSubmitting, errors, values }) => (
-          <Form>
+          <Form className={s.container}>
             <Field type="text" name="name" placeholder="Name" />
             <br />
             <ErrorMessage name="name" component="div" />
