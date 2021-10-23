@@ -31,8 +31,8 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       //   state.errorMessage = null;
     },
-    [authOperations.fetchCurrentUser.fulfilled](state, { payload }) {
-      state.user = payload;
+    [authOperations.fetchCurrentUser.fulfilled](state, action) {
+      state.user = action.payload;
       state.isLoggedIn = true;
       //   state.isFetchingCurrentUser = false;
     },
