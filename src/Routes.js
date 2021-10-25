@@ -1,13 +1,15 @@
-import { Switch, Route } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Suspense, useEffect } from "react";
-import App from "./App.js";
+import Conacts from "./App.js";
 import { Registration } from "./login/components/registration.jsx";
 import { Login } from "./login/components/login.jsx";
-import home from "./Components/startPage.js";
 import authOperations from "./redux/auth/auth-operations.js";
-// import PrivateRoute from "./Components/PrivatRoute/privatRoute";
-// import PublicRoute from "./Components/PublicRoute/publicRoute";
+import Home from "./Components/startPage.js";
+import PrivateRoute from "./Components/PrivatRoute/privatRoute";
+import PublicRoute from "./Components/PublicRoute/publicRoute";
+
+// const HomePage = lazy(() => import("./views/HomePage" /* webpackChunkName: "home-page-view" */));
 
 export default function Routes() {
   const dispatch = useDispatch();
@@ -20,11 +22,25 @@ export default function Routes() {
     <div>
       <Switch>
         <Suspense fallback={<p>Loading...</p>}>
-          <Route exact path="/" component={home} />
-          <Route path="/login" component={Login} />
-          <Route path="/registration" component={Registration} />
-          <Route exatc path="/contacts" component={App} />
-          {/* <Route path="/app" component={App} /> */}
+          {/* <Route exact path="/" component={home} /> */}
+          {/* <Route path="/login" component={Login} /> */}
+          {/* <Route path="/registration" component={Registration} /> */}
+
+          <PublicRoute exact path="/">
+            <Home />
+          </PublicRoute>
+
+          <PublicRoute path="/login" restricted>
+            <Login />
+          </PublicRoute>
+
+          <PublicRoute path="/registration" restricted>
+            <Registration />
+          </PublicRoute>
+
+          <PrivateRoute path="/contacts">
+            <Conacts />
+          </PrivateRoute>
         </Suspense>
       </Switch>
     </div>
