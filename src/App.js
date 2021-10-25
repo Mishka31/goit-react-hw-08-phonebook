@@ -1,51 +1,48 @@
-import { connect } from "react-redux";
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import ContactForm from "./Components/ContactForm/ContactForm.jsx";
-import ContactList from "./Components/ContactList/ContactList.jsx";
-import Filter from "./Components/Filter/Filter.jsx";
-import s from "./App.module.css";
-import operations from "./redux/contacts/contacts-operations.js";
-import contactsSelectors from "./redux/contacts/contacts-selector.js";
-import AppBar from "./Components/AppBar/AppBar.js";
+import { Switch } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Suspense, useEffect } from "react";
+import Conacts from "./Components/Contacts/contacts.js";
+import { Registration } from "./login/components/registration.jsx";
+import { Login } from "./login/components/login.jsx";
+import authOperations from "./redux/auth/auth-operations.js";
+import Home from "./Components/startPage.js";
+import PrivateRoute from "./Components/PrivatRoute/privatRoute";
+import PublicRoute from "./Components/PublicRoute/publicRoute";
 
-class App extends Component {
-  state = {
-    contacts: [],
-    filter: "",
-  };
+// const HomePage = lazy(() => import("./views/HomePage" /* webpackChunkName: "home-page-view" */));
 
-  componentDidMount() {
-    this.props.fetchContacts();
-  }
-  // logout = () => {
-  //   console.log("logout");
-  // };
+export default function Routes() {
+  const dispatch = useDispatch();
 
-  render() {
-    const { contacts } = this.state;
-    return (
-      <div>
-        <AppBar />
-        <Link to="/">Logout</Link>
-        {/* <button onClick={this.logout}>Logout</button> */}
-        <h1 className={s.titleH1}>Phonebook</h1>
-        <ContactForm listArrey={contacts} />
-        <h2 className={s.titleH2}>Contacts</h2>
-        <Filter />
-        <ContactList />
-        {this.props.isLoading && <h1>Download...</h1>}
-      </div>
-    );
-  }
+  useEffect(() => {
+    dispatch(authOperations.fetchCurrentUser());
+  }, [dispatch]);
+
+  return (
+    <div>
+      <Switch>
+        <Suspense fallback={<p>Loading...</p>}>
+          {/* <Route exact path="/" component={home} /> */}
+          {/* <Route path="/login" component={Login} /> */}
+          {/* <Route path="/registration" component={Registration} /> */}
+
+          <PublicRoute exact path="/">
+            <Home />
+          </PublicRoute>
+
+          <PublicRoute path="/login" restricted>
+            <Login />
+          </PublicRoute>
+
+          <PublicRoute path="/registration" restricted>
+            <Registration />
+          </PublicRoute>
+
+          <PrivateRoute path="/contacts">
+            <Conacts />
+          </PrivateRoute>
+        </Suspense>
+      </Switch>
+    </div>
+  );
 }
-
-const mapStateToProps = (state) => ({
-  isLoading: contactsSelectors.getLoading(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchContacts: () => dispatch(operations.fetchContacts()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
