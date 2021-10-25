@@ -1,6 +1,18 @@
 .titleH1 {
-  margin-left: 110px;
+  text-align: center;
+  color: teal;
+  filter: blur(1px);
 }
 .titleH2 {
-  margin-left: 130px;
+  text-align: center;
+  color: teal;
+  filter: blur(0.5px);
+}
+.container {
+  background: rgba(202, 148, 0, 0.329);
+  box-shadow: 0 0 16px 16px white inset;
+  padding-top: 20px;
+  padding-bottom: 50px;
+  padding-right: 7%;
+  padding-left: 7%;
 }

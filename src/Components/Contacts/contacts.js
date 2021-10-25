@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import ContactForm from "../ContactForm/ContactForm.jsx";
 import ContactList from "../ContactList/ContactList.jsx";
 import Filter from "../Filter/Filter.jsx";
@@ -27,14 +26,14 @@ class App extends Component {
     return (
       <div>
         <AppBar />
-        <Link to="/">Logout</Link>
-        {/* <button onClick={this.logout}>Logout</button> */}
-        <h1 className={s.titleH1}>Phonebook</h1>
-        <ContactForm listArrey={contacts} />
-        <h2 className={s.titleH2}>Contacts</h2>
-        <Filter />
-        <ContactList />
-        {this.props.isLoading && <h1>Download...</h1>}
+        <div className={s.container}>
+          <h1 className={s.titleH1}>Phonebook</h1>
+          <ContactForm listArrey={contacts} />
+          <h2 className={s.titleH2}>Contacts</h2>
+          <Filter />
+          <ContactList />
+          {/* {this.props.isLoading && <h1>Download...</h1>} */}
+        </div>
       </div>
     );
   }

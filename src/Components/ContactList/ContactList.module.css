@@ -1,16 +1,38 @@
 .section {
-  width: 400px;
-  border: 1px solid blueviolet;
+  justify-content: space-between;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 400px;
 }
 .button {
-  margin-left: 10px;
+  /* filter: blur(0.5px); */
+  background-color: rgba(231, 228, 134, 0.486);
+  border-radius: 50px;
+  font-weight: 700;
+  margin-right: 10px;
 }
 .name {
+  margin-left: 10px;
   font-weight: 700;
 }
 .number {
-  color: blue;
+  margin-left: 5px;
+  font-size: 14px;
+}
+.ul {
+  margin: 0;
+  padding: 0;
 }
 .li {
+  /* height: 30px; */
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(219, 196, 95);
   margin-bottom: 5px;
+  border-radius: 6px;
+}
+.numName {
+  /* display: flex; */
+  width: 400px;
 }

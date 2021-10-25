@@ -6,16 +6,18 @@ import selectors from "../../redux/contacts/contacts-selector.js";
 function ContactList({ contacts, onClick }) {
   return (
     <section className={s.section}>
-      <ul>
+      <ul className={s.ul}>
         {contacts.map((contact) => {
           return (
             <li key={contact.id} className={s.li}>
-              <span className={s.name}>{contact.name}:</span>{" "}
-              <a className={s.number} href="tel:{contact.number}">
-                {contact.number}
-              </a>
+              <div className={s.numName}>
+                <span className={s.name}>{contact.name}:</span>
+                <a className={s.number} href="tel:{contact.number}">
+                  {contact.number}
+                </a>
+              </div>
               <button className={s.button} id={contact.id} onClick={() => onClick(contact.id)}>
-                Delete
+                ❌
               </button>
             </li>
           );
