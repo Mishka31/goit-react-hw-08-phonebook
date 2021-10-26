@@ -17,10 +17,6 @@ class App extends Component {
   componentDidMount() {
     this.props.fetchContacts();
   }
-  // logout = () => {
-  //   console.log("logout");
-  // };
-
   render() {
     const { contacts } = this.state;
     return (
