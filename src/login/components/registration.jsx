@@ -1,27 +1,34 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import authOperations from "../../redux/auth/auth-operations.js";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import AppBar from "../../Components/AppBar/AppBar.js";
 import s from "./login.module.css";
-// import { register } from "../thunk.js";
 
 const INITIAL_VALUES = {
   name: "",
   email: "",
   password: "",
-  repeatPassword: "",
+  confirmPassword: "",
 };
 
 const Registration = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const dispatch = useDispatch();
 
   const validate = useCallback((values) => {
     const errors = {};
+
     if (!values.name) {
       errors.name = "Required";
     } else if (values.name.length < 3) {
-      errors.name = "Invalid name. Name should be more 3 symbols";
+      errors.name = "Invalid name. Name should have at least 3 symbols";
     }
 
     if (!values.email) {
@@ -32,66 +39,142 @@ const Registration = () => {
 
     if (!values.password) {
       errors.password = "Required";
-    } else if (values.password.length < 7 || values.password.length > 15) {
-      errors.password = "Invalid password. Password should be more then 8 and less then 15 symbols";
+    } else if (values.password.length < 8 || values.password.length > 16) {
+      errors.password =
+        "Invalid password. Password should be greater then 8 symbols and less then 16 symbols";
     }
 
-    if (!values.repeatPassword) {
-      errors.repeatPassword = "Required!";
-    } else if (values.repeatPassword.length < 8 || values.password.length > 15) {
-      errors.repeatPassword = "Invalid password. Password should be more then 8 symbols!";
-    } else if (values.repeatPassword !== values.password) {
-      errors.repeatPassword = "Confirm password should be equal password!";
+    if (!values.confirmPassword) {
+      errors.confirmPassword = "Required";
+    } else if (values.confirmPassword.length < 8 || values.confirmPassword.length > 16) {
+      errors.confirmPassword =
+        "Invalid password. Password should be greater then 8 symbols and less then 16 symbols";
+    } else if (values.password !== values.confirmPassword) {
+      errors.confirmPassword = "Confirm password should be equal to password";
     }
+
     return errors;
   }, []);
 
-  const onSubmit = useCallback(
+  const handleSubmit = useCallback(
     (values, { setSubmitting }) => {
-      dispatch(authOperations.register(values));
-      console.log(values);
+      dispatch(
+        authOperations.register({
+          name: values.name,
+          email: values.email,
+          password: values.password,
+        })
+      );
       setSubmitting(false);
     },
     [dispatch]
   );
 
+  const togglePassword = useCallback(() => {
+    setShowPassword((prev) => !prev);
+  }, []);
+
+  const toggleConfirmPassword = useCallback(() => {
+    setShowConfirmPassword((prev) => !prev);
+  }, []);
+
   return (
     <div>
       <AppBar />
       <h1 className={s.title}>Registration form!</h1>
-      <Formik initialValues={INITIAL_VALUES} validate={validate} onSubmit={onSubmit}>
-        {({ isSubmitting, errors, values }) => (
-          <Form className={s.container}>
-            <Field type="text" name="name" placeholder="Name" />
-            <br />
-            <ErrorMessage name="name" component="div" />
-            <br />
-            <Field type="email" name="email" placeholder="Email" />
-            <br />
-            <ErrorMessage name="email" component="div" />
-            <br />
-            <Field type="password" name="password" placeholder="Password" />
-            <br />
-            <ErrorMessage name="password" component="div" />
-            <br />
-            <Field type="password" name="repeatPassword" placeholder="Confirm password" />
-            <br />
-            <ErrorMessage name="repeatPassword" component="div" />
-            <br />
-
-            <button
+      <Formik initialValues={INITIAL_VALUES} validate={validate} onSubmit={handleSubmit}>
+        {({ values, errors, touched, handleChange, handleSubmit, handleBlur, isSubmitting }) => (
+          <Form className={s.container} onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              id="name"
+              name="name"
+              label="Name"
+              value={values.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.name && Boolean(errors.name)}
+              helperText={touched.name && errors.name}
+            />
+            <TextField
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              id="email"
+              name="email"
+              label="Email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.email && Boolean(errors.email)}
+              helperText={touched.email && errors.email}
+            />
+            <div className={s.passwordField}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                id="password"
+                name="password"
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.password && Boolean(errors.password)}
+                margin="normal"
+                helperText={touched.password && errors.password}
+              />
+              <div className={s.passwordIconButton}>
+                <IconButton
+                  aria-label="visibility"
+                  onClick={togglePassword}
+                  disabled={!values.password}
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </div>
+            </div>
+            <div className={s.passwordField}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                id="confirmPassword"
+                name="confirmPassword"
+                label="Confirm Password"
+                type={showConfirmPassword ? "text" : "password"}
+                value={values.confirmPassword}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.confirmPassword && Boolean(errors.confirmPassword)}
+                margin="normal"
+                helperText={touched.confirmPassword && errors.confirmPassword}
+              />
+              <div className={s.passwordIconButton}>
+                <IconButton
+                  aria-label="visibility"
+                  onClick={toggleConfirmPassword}
+                  disabled={!values.confirmPassword}
+                >
+                  {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </div>
+            </div>
+            <Button
               type="submit"
+              color="primary"
+              variant="contained"
               disabled={
                 isSubmitting ||
-                errors.name ||
-                errors.email ||
-                !values.email ||
-                values.repeatPassword !== values.password ||
-                !values.password
+                !(
+                  Object.keys(touched).length === Object.keys(INITIAL_VALUES).length &&
+                  Object.keys(errors).length === 0
+                )
               }
             >
               Submit
-            </button>
+            </Button>
           </Form>
         )}
       </Formik>

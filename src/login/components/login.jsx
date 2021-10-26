@@ -5,6 +5,9 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import authOperations from "../../redux/auth/auth-operations.js";
 import AppBar from "../../Components/AppBar/AppBar.js";
+import Box from "@material-ui/core/Box";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import s from "./login.module.css";
 
 const INITIAL_VALUES = {
@@ -16,9 +19,6 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const [showPassword, setShowPassword] = useState(false);
-  const togglePassword = useCallback(() => {
-    setShowPassword((prev) => !prev);
-  }, []);
 
   const validate = useCallback((values) => {
     const errors = {};
@@ -39,6 +39,10 @@ const Login = () => {
     [dispatch]
   );
 
+  const handleClickShowPassword = () => {
+    setShowPassword((showPassword) => !showPassword);
+  };
+
   return (
     <div>
       <AppBar />
@@ -48,6 +52,7 @@ const Login = () => {
           <form className={s.container} onSubmit={handleSubmit}>
             <TextField
               fullWidth
+              variant="outlined"
               id="email"
               name="email"
               label="Email"
@@ -58,21 +63,26 @@ const Login = () => {
               error={touched.email && Boolean(errors.email)}
               helperText={touched.email && errors.email}
             />
-            <TextField
-              fullWidth
-              id="password"
-              name="password"
-              label="Password"
-              type={showPassword ? "text" : "password"}
-              value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={touched.password && Boolean(errors.password)}
-              helperText={touched.password && errors.password}
-            />
-            <button onClick={togglePassword}>
-              {showPassword ? "Hide pasword" : "Show password"}
-            </button>
+            <br />
+            <br />
+            <Box sx={{ display: "flex" }}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                id="password"
+                name="password"
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.password && Boolean(errors.password)}
+                helperText={touched.password && errors.password}
+              />
+              <Button onClick={handleClickShowPassword}>
+                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+              </Button>
+            </Box>
             <br />
             <br />
             <Button

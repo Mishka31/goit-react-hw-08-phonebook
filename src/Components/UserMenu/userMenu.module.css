@@ -13,12 +13,20 @@
 }
 
 .button {
-  height: 30px;
+  background: rgba(202, 148, 0, 0.329);
   border-radius: 4px;
   margin-left: 10px;
   font-size: inherit;
+  cursor: pointer;
 }
 .button:focus,
 .button:hover {
   background-color: rgb(214, 214, 214);
+}
+
+.tile {
+  margin-left: 5px;
+  color: rgb(0, 209, 122);
+  font-weight: 700;
+  font-size: 18px;
 }

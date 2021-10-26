@@ -1,6 +1,5 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-// import { Redirect } from "react-router";
 
 axios.defaults.baseURL = "https://connections-api.herokuapp.com";
 
@@ -13,24 +12,24 @@ const token = {
   },
 };
 
-const register = createAsyncThunk("auth/register", async (credentials) => {
+const register = createAsyncThunk("auth/register", async (credentials, { rejectWithValue }) => {
   try {
     const { data } = await axios.post("/users/signup", credentials);
     token.set(data.token);
     // <Redirect to="/" />;
     return data;
   } catch (error) {
-    // return rejectWithValue(error);
+    return rejectWithValue(error);
   }
 });
 
-const logIn = createAsyncThunk("auth/login", async (credentials) => {
+const logIn = createAsyncThunk("auth/login", async (credentials, { rejectWithValue }) => {
   try {
     const { data } = await axios.post("/users/login", credentials);
     token.set(data.token);
     return data;
   } catch (error) {
-    // return rejectWithValue(error);
+    return rejectWithValue(error);
   }
 });
 
@@ -44,7 +43,6 @@ const logOut = createAsyncThunk("auth/logout", async () => {
 });
 
 const fetchCurrentUser = createAsyncThunk("auth/refresh", async (_, thunkAPI) => {
-  console.log(thunkAPI.getState());
   const state = thunkAPI.getState();
   const tokenLocal = state.auth.token;
   if (tokenLocal === null) {
