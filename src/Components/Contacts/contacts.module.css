@@ -9,7 +9,7 @@
   filter: blur(0.5px);
 }
 .container {
-  height: 800px;
+  min-height: 900px;
   /* width: 600px; */
   padding-top: 20px;
   padding-bottom: 50px;
@@ -20,5 +20,5 @@
   background-image: url(../orange.png);
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 800px;
+  /* background-size: 800px; */
 }
