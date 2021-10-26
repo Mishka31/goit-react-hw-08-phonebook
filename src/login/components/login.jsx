@@ -46,6 +46,7 @@ const Login = () => {
   return (
     <div>
       <AppBar />
+      <div className={s.container1}></div>
       <h1 className={s.title}>Login form!</h1>
       <Formik initialValues={INITIAL_VALUES} validate={validate} onSubmit={onSubmit}>
         {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (

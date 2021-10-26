@@ -81,10 +81,11 @@ const Registration = () => {
   return (
     <div>
       <AppBar />
+      <div className={s.container1}></div>
       <h1 className={s.title}>Registration form!</h1>
       <Formik initialValues={INITIAL_VALUES} validate={validate} onSubmit={handleSubmit}>
         {({ values, errors, touched, handleChange, handleSubmit, handleBlur, isSubmitting }) => (
-          <Form className={s.container} onSubmit={handleSubmit}>
+          <Form className={(s.container, s.reg)} onSubmit={handleSubmit}>
             <TextField
               fullWidth
               variant="outlined"
