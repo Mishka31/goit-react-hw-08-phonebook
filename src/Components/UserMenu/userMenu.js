@@ -10,7 +10,7 @@ export default function UserMenu() {
   return (
     <div className={s.list}>
       <img src={Avatar} alt="" className={s.avatar} />
-      <p className={s.tile}>{name}, wellcome! </p>
+      <p className={s.tile}>{name.slice(0, 21)}, wellcome! </p>
       <button type="button" className={s.button} onClick={() => dispatch(authOperations.logOut())}>
         Logout
       </button>

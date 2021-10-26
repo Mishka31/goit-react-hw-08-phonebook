@@ -168,10 +168,9 @@ const Registration = () => {
               variant="contained"
               disabled={
                 isSubmitting ||
-                !(
-                  Object.keys(touched).length === Object.keys(INITIAL_VALUES).length &&
-                  Object.keys(errors).length === 0
-                )
+                !values.confirmPassword ||
+                !values.password ||
+                values.confirmPassword !== values.password
               }
             >
               Submit
